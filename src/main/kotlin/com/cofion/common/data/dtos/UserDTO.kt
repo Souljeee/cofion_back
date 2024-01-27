@@ -1,14 +1,14 @@
 package com.cofion.common.data.dtos
 
-import java.util.*
+import java.time.LocalDate
 
 
 class UserDTO(
     val id: String,
-    val firstName: String,
-    val lastName: String,
-    val createAccountDate: Date,
-    val login: String,
+    val firstName: String?,
+    val lastName: String?,
+    val createAccountDate: LocalDate,
+    val email: String,
     val password: String,
-    val token: String,
+    val token: String?,
 )

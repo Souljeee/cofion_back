@@ -1,5 +1,6 @@
 package com.cofion
 
+import com.cofion.features.create_account.createAccountRouting
 import com.cofion.plugins.*
 import io.ktor.server.application.*
 import io.ktor.server.cio.*
@@ -18,6 +19,7 @@ fun main() {
 }
 
 fun Application.module() {
+    createAccountRouting()
     configureMonitoring()
     configureSockets()
     configureSerialization()
