@@ -9,6 +9,13 @@ class AuthController {
             token = null
         )
 
+        if(!user.confirmed){
+            return AuthDTO(
+                authStatus = AuthStatus.NONEXISTENT_USER,
+                token = null
+            )
+        }
+
         if (user.password == password) {
             val token = UsersTable.updateAuthToken(email = email)
 

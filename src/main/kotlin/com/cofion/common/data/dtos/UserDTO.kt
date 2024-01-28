@@ -10,4 +10,5 @@ class UserDTO(
     val createAccountDate: LocalDate,
     val email: String,
     val password: String,
+    val confirmed: Boolean,
 )

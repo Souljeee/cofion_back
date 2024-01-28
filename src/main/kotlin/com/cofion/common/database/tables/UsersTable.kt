@@ -36,6 +36,7 @@ object UsersTable: Table("users") {
                 createAccountDate = user[createAccountDate],
                 email = user[UsersTable.email],
                 password = user[password],
+                confirmed = user[confirmed]
             )
         }
 

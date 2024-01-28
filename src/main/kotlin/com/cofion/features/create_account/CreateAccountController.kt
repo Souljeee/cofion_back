@@ -22,6 +22,7 @@ class CreateAccountController {
                     createAccountDate = LocalDate.now(),
                     email = accountInfo.email,
                     password = accountInfo.password,
+                    confirmed = false
                 )
             )
 
