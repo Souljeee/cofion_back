@@ -40,5 +40,14 @@ fun Application.createAccountRouting() {
                 CreateCodeResponse(codeSent = codeSent)
             )
         }
+        post("/confirm_code") {
+            val payload = call.receive<ConfirmCodePayload>()
+
+            val userConfirmationStatus = createAccountController.confirmCode(email = payload.email, code = payload.code)
+
+            call.respond(
+                ConfirmCodeResponse(confirmationStatus = userConfirmationStatus)
+            )
+        }
     }
 }

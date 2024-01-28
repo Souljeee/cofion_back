@@ -23,3 +23,14 @@ data class CreateCodePayload(
 data class CreateCodeResponse(
     val codeSent: Boolean
 )
+
+@Serializable
+data class ConfirmCodePayload(
+    val email: String,
+    val code: String
+)
+
+@Serializable
+data class ConfirmCodeResponse(
+    val confirmationStatus: UserConfirmationStatus,
+)

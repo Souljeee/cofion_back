@@ -46,6 +46,23 @@ class CreateAccountController {
         }
     }
 
+    fun confirmCode(email: String, code: String): UserConfirmationStatus{
+        val existingCode = SentCodesTable.getCodeByEmail(email = email)
+
+        if(existingCode != null){
+            if(existingCode == code){
+                SentCodesTable.removeCode(email = email)
+                UsersTable.confirmUserWithEmail(email = email)
+
+                return UserConfirmationStatus.CONFIRMED
+            }
+
+            return UserConfirmationStatus.WRONG_CODE
+        }
+
+        return UserConfirmationStatus.NONEXISTENT_USER
+    }
+
     private fun sendCode(email: String, code: String) {
         val emailSender = SimpleEmail()
         emailSender.hostName = "smtp.googlemail.com"
@@ -58,4 +75,8 @@ class CreateAccountController {
         emailSender.addTo(email)
         emailSender.send()
     }
+}
+
+enum class UserConfirmationStatus{
+    CONFIRMED, WRONG_CODE, NONEXISTENT_USER
 }

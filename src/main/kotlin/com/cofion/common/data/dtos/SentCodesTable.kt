@@ -1,10 +1,8 @@
 package com.cofion.common.data.dtos
 
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
-import org.jetbrains.exposed.sql.update
 
 
 object SentCodesTable : Table("sent_codes") {
@@ -29,6 +27,26 @@ object SentCodesTable : Table("sent_codes") {
                 it[SentCodesTable.email] = email
                 it[SentCodesTable.code] = code
             }
+        }
+    }
+
+    fun getCodeByEmail(email: String): String?{
+        val code = transaction{
+            val existingCode = SentCodesTable.selectAll().where { SentCodesTable.email eq email }.singleOrNull()
+
+            if(existingCode != null){
+                return@transaction existingCode[SentCodesTable.code]
+            }
+
+            return@transaction null
+        }
+
+        return code
+    }
+
+    fun removeCode(email: String){
+        transaction{
+            SentCodesTable.deleteWhere { SentCodesTable.email eq email }
         }
     }
 }

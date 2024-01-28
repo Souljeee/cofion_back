@@ -1,12 +1,9 @@
 package com.cofion.common.database.tables
 
 import com.cofion.common.data.dtos.UserDTO
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.Table
-import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.javatime.date
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
 object UsersTable: Table("users") {
@@ -55,6 +52,14 @@ object UsersTable: Table("users") {
                 it[password] = user.password
                 it[token] = null
                 it[confirmed] = false
+            }
+        }
+    }
+
+    fun confirmUserWithEmail(email: String){
+        transaction {
+            UsersTable.update({UsersTable.email eq email}) {
+                it[UsersTable.confirmed] = true
             }
         }
     }
