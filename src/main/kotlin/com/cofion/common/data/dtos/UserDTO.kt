@@ -10,5 +10,4 @@ class UserDTO(
     val createAccountDate: LocalDate,
     val email: String,
     val password: String,
-    val token: String?,
 )

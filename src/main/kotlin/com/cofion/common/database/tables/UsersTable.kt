@@ -3,6 +3,7 @@ package com.cofion.common.database.tables
 import com.cofion.common.data.dtos.UserDTO
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
@@ -16,6 +17,7 @@ object UsersTable: Table("users") {
     val password = varchar("password", 100)
     val createAccountDate = date("create_account_dt")
     val token = varchar("token", 100).nullable()
+    val confirmed = bool("confirmed")
 
     override val primaryKey = PrimaryKey(id)
 
@@ -36,10 +38,24 @@ object UsersTable: Table("users") {
                 createAccountDate = user[createAccountDate],
                 email = user[UsersTable.email],
                 password = user[password],
-                token = user[token],
             )
         }
 
         return user
+    }
+
+    fun saveUser(user: UserDTO){
+        transaction{
+            UsersTable.insert {
+                it[id] = user.id
+                it[firstName] = user.firstName
+                it[lastName] = user.lastName
+                it[createAccountDate] = user.createAccountDate
+                it[email] = user.email
+                it[password] = user.password
+                it[token] = null
+                it[confirmed] = false
+            }
+        }
     }
 }

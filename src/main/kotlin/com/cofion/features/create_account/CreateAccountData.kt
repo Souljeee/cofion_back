@@ -13,3 +13,13 @@ data class CreateAccountResponse(
     val accessAllowed: Boolean,
     val message: String
 )
+
+@Serializable
+data class CreateCodePayload(
+    val email: String
+)
+
+@Serializable
+data class CreateCodeResponse(
+    val codeSent: Boolean
+)
