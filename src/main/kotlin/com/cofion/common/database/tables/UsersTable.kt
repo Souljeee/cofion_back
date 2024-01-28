@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.transactions.transaction
+import java.util.UUID
 
 object UsersTable: Table("users") {
     val id = varchar("id", 100)
@@ -62,5 +63,19 @@ object UsersTable: Table("users") {
                 it[UsersTable.confirmed] = true
             }
         }
+    }
+
+    fun updateAuthToken(email: String): String{
+        val token = transaction {
+            val token = UUID.randomUUID().toString()
+
+            UsersTable.update({UsersTable.email eq email}) {
+                it[UsersTable.token] = token
+            }
+
+            return@transaction token
+        }
+
+        return token
     }
 }
