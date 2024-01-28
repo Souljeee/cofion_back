@@ -11,8 +11,8 @@ fun main() {
     Database.connect(
         "jdbc:postgresql://localhost:5432/cofion",
         driver = "org.postgresql.Driver",
-        user = "postgres",
-        password = "1q2w3e4r5t",
+        user = System.getenv("DB_USER"),
+        password = System.getenv("DB_PASSWORD"),
     )
     embeddedServer(CIO, port = 8080, host = "0.0.0.0", module = Application::module)
         .start(wait = true)

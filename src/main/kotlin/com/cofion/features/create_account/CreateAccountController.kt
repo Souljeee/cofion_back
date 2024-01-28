@@ -46,11 +46,11 @@ class CreateAccountController {
         }
     }
 
-    fun confirmCode(email: String, code: String): UserConfirmationStatus{
+    fun confirmCode(email: String, code: String): UserConfirmationStatus {
         val existingCode = SentCodesTable.getCodeByEmail(email = email)
 
-        if(existingCode != null){
-            if(existingCode == code){
+        if (existingCode != null) {
+            if (existingCode == code) {
                 SentCodesTable.removeCode(email = email)
                 UsersTable.confirmUserWithEmail(email = email)
 
@@ -65,11 +65,16 @@ class CreateAccountController {
 
     private fun sendCode(email: String, code: String) {
         val emailSender = SimpleEmail()
-        emailSender.hostName = "smtp.googlemail.com"
+        emailSender.hostName = System.getenv("EMAIL_SENDER_HOSTNAME")
         emailSender.setSmtpPort(465)
-        emailSender.setAuthenticator(DefaultAuthenticator("cofiontech@gmail.com", "zizr qblj uixm bnjo"))
+        emailSender.setAuthenticator(
+            DefaultAuthenticator(
+                System.getenv("EMAIL_SENDER_USER"),
+                System.getenv("EMAIL_SENDER_PASSWORD")
+            )
+        )
         emailSender.isSSLOnConnect = true
-        emailSender.setFrom("cofiontech@gmail.com")
+        emailSender.setFrom(System.getenv("EMAIL_SENDER_USER"))
         emailSender.subject = "Код подтверждения"
         emailSender.setMsg("Ваш код подтверждения: $code.")
         emailSender.addTo(email)
@@ -77,6 +82,6 @@ class CreateAccountController {
     }
 }
 
-enum class UserConfirmationStatus{
+enum class UserConfirmationStatus {
     CONFIRMED, WRONG_CODE, NONEXISTENT_USER
 }
