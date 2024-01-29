@@ -30,4 +30,8 @@ class AuthController {
             token = null
         )
     }
+
+    fun resetAuthToken(email: String){
+        UsersTable.resetAuthToken(email = email)
+    }
 }

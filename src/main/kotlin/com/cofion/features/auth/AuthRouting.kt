@@ -25,7 +25,7 @@ fun Application.authRouting() {
         }
         patch("/logout") {
             val payload = call.receive<LogoutPayload>()
-            UsersTable.resetAuthToken(email = payload.email)
+            authController.resetAuthToken(email = payload.email)
             call.respond(status = HttpStatusCode.OK, message = "Success logout")
         }
         get("/check_auth") {
