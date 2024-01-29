@@ -86,4 +86,20 @@ object UsersTable: Table("users") {
             }
         }
     }
+
+    fun checkAuth(token: String): Boolean{
+        val hasAuth = transaction {
+            val user = UsersTable.selectAll().where {
+                UsersTable.token eq token
+            }.firstOrNull()
+
+            if(user == null){
+                return@transaction false
+            }
+
+            return@transaction user[UsersTable.token] != null
+        }
+
+        return hasAuth
+    }
 }

@@ -19,6 +19,11 @@ data class LogoutPayload(
     val email: String
 )
 
+@Serializable
+data class CheckAuthResponse(
+    val hasAccess: Boolean
+)
+
 enum class AuthStatus {
     SUCCESS, NONEXISTENT_USER, WRONG_PASSWORD
 }

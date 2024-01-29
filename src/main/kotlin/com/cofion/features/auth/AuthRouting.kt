@@ -28,5 +28,22 @@ fun Application.authRouting() {
             UsersTable.resetAuthToken(email = payload.email)
             call.respond(status = HttpStatusCode.OK, message = "Success logout")
         }
+        get("/check_auth") {
+            val authToken = call.request.header("auth-token")
+
+            if (authToken == null) {
+                call.respond(status = HttpStatusCode.Unauthorized, message = "Unauthorized")
+
+                return@get
+            }
+
+            val hasAuth = UsersTable.checkAuth(token = authToken)
+
+            call.respond(
+                CheckAuthResponse(
+                    hasAccess = hasAuth
+                )
+            )
+        }
     }
 }
