@@ -1,6 +1,5 @@
 package com.cofion.features.auth
 
-import com.cofion.common.database.tables.UsersTable
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -37,7 +36,7 @@ fun Application.authRouting() {
                 return@get
             }
 
-            val hasAuth = UsersTable.checkAuth(token = authToken)
+            val hasAuth = authController.checkAuth(authToken = authToken)
 
             call.respond(
                 CheckAuthResponse(

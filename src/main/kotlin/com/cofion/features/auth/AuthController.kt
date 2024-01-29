@@ -34,4 +34,8 @@ class AuthController {
     fun resetAuthToken(email: String){
         UsersTable.resetAuthToken(email = email)
     }
+
+    fun checkAuth(authToken: String): Boolean{
+        return UsersTable.checkAuth(token = authToken)
+    }
 }
