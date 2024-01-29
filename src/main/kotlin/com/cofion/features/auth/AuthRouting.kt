@@ -1,6 +1,7 @@
 package com.cofion.features.auth
 
-import com.cofion.features.create_account.*
+import com.cofion.common.database.tables.UsersTable
+import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
@@ -22,6 +23,10 @@ fun Application.authRouting() {
                 )
             )
         }
-        post("/logout") {}
+        patch("/logout") {
+            val payload = call.receive<LogoutPayload>()
+            UsersTable.resetAuthToken(email = payload.email)
+            call.respond(status = HttpStatusCode.OK, message = "Success logout")
+        }
     }
 }

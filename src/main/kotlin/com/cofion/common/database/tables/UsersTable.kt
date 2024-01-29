@@ -2,7 +2,6 @@ package com.cofion.common.database.tables
 
 import com.cofion.common.data.dtos.UserDTO
 import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.UUID
@@ -61,7 +60,7 @@ object UsersTable: Table("users") {
     fun confirmUserWithEmail(email: String){
         transaction {
             UsersTable.update({UsersTable.email eq email}) {
-                it[UsersTable.confirmed] = true
+                it[confirmed] = true
             }
         }
     }
@@ -78,5 +77,13 @@ object UsersTable: Table("users") {
         }
 
         return token
+    }
+
+    fun resetAuthToken(email: String){
+        transaction {
+            UsersTable.update({UsersTable.email eq email}) {
+                it[token] = null
+            }
+        }
     }
 }
