@@ -1,4 +1,4 @@
-package com.cofion.common.data.dtos
+package com.cofion.common.database.tables
 
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -16,7 +16,7 @@ object SentCodesTable : Table("sent_codes") {
             val existingCode = SentCodesTable.selectAll().where { SentCodesTable.email eq email }.singleOrNull()
 
             if(existingCode != null){
-                SentCodesTable.update({SentCodesTable.email eq email}){
+                SentCodesTable.update({ SentCodesTable.email eq email}){
                     it[SentCodesTable.code] = code
                 }
 
@@ -35,7 +35,7 @@ object SentCodesTable : Table("sent_codes") {
             val existingCode = SentCodesTable.selectAll().where { SentCodesTable.email eq email }.singleOrNull()
 
             if(existingCode != null){
-                return@transaction existingCode[SentCodesTable.code]
+                return@transaction existingCode[code]
             }
 
             return@transaction null

@@ -15,8 +15,8 @@ object UsersTable: Table("users") {
     val createAccountDate = date("create_account_dt")
     val token = varchar("token", 100).nullable()
     val confirmed = bool("confirmed")
-    val coachInfoId = varchar("coach_info_id", 100).nullable()
-    val clientInfoId = varchar("client_info_id", 100).nullable()
+    val coachInfoId = varchar("coach_info_id", 100).references(CoachInfoTable.id).nullable()
+    val clientInfoId = varchar("client_info_id", 100).references(ClientInfoTable.id).nullable()
 
     override val primaryKey = PrimaryKey(id)
 

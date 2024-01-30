@@ -1,6 +1,6 @@
 package com.cofion.features.create_account
 
-import com.cofion.common.data.dtos.SentCodesTable
+import com.cofion.common.database.tables.SentCodesTable
 import com.cofion.common.data.dtos.UserDTO
 import com.cofion.common.database.tables.UsersTable
 import org.apache.commons.mail.DefaultAuthenticator
