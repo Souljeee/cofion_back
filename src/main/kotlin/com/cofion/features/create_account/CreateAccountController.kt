@@ -2,6 +2,8 @@ package com.cofion.features.create_account
 
 import com.cofion.common.database.tables.SentCodesTable
 import com.cofion.common.data.dtos.UserDTO
+import com.cofion.common.database.tables.ClientInfoTable
+import com.cofion.common.database.tables.CoachInfoTable
 import com.cofion.common.database.tables.UsersTable
 import org.apache.commons.mail.DefaultAuthenticator
 import org.apache.commons.mail.SimpleEmail
@@ -22,8 +24,19 @@ class CreateAccountController {
                     createAccountDate = LocalDate.now(),
                     email = accountInfo.email,
                     password = accountInfo.password,
-                    confirmed = false
+                    confirmed = false,
                 )
+            )
+
+            val infoId = if (accountInfo.accountType == "coach")
+                CoachInfoTable.createCoachAccount()
+            else
+                ClientInfoTable.createClientAccount()
+
+            UsersTable.markAccountWithType(
+                email = accountInfo.email,
+                accountType = accountInfo.accountType,
+                infoId = infoId
             )
 
             return true
@@ -41,7 +54,7 @@ class CreateAccountController {
 
             return true
         } catch (e: Exception) {
-            print("Error with code sending ${e.toString()}")
+            print("Error with code sending $e")
 
             return false
         }

@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.javatime.date
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.UUID
 
-object UsersTable: Table("users") {
+object UsersTable : Table("users") {
     val id = varchar("id", 100)
     val firstName = varchar("first_name", 50).nullable()
     val lastName = varchar("last_name", 50).nullable()
@@ -21,12 +21,12 @@ object UsersTable: Table("users") {
     override val primaryKey = PrimaryKey(id)
 
     fun getUserWithEmail(email: String): UserDTO? {
-        val user = transaction{
+        val user = transaction {
             val user = UsersTable.selectAll().where {
                 UsersTable.email eq email
             }.firstOrNull()
 
-            if (user == null){
+            if (user == null) {
                 return@transaction null
             }
 
@@ -37,15 +37,15 @@ object UsersTable: Table("users") {
                 createAccountDate = user[createAccountDate],
                 email = user[UsersTable.email],
                 password = user[password],
-                confirmed = user[confirmed]
+                confirmed = user[confirmed],
             )
         }
 
         return user
     }
 
-    fun saveUser(user: UserDTO){
-        transaction{
+    fun saveUser(user: UserDTO) {
+        transaction {
             UsersTable.insert {
                 it[id] = user.id
                 it[firstName] = user.firstName
@@ -59,19 +59,19 @@ object UsersTable: Table("users") {
         }
     }
 
-    fun confirmUserWithEmail(email: String){
+    fun confirmUserWithEmail(email: String) {
         transaction {
-            UsersTable.update({UsersTable.email eq email}) {
+            UsersTable.update({ UsersTable.email eq email }) {
                 it[confirmed] = true
             }
         }
     }
 
-    fun updateAuthToken(email: String): String{
+    fun updateAuthToken(email: String): String {
         val token = transaction {
             val token = UUID.randomUUID().toString()
 
-            UsersTable.update({UsersTable.email eq email}) {
+            UsersTable.update({ UsersTable.email eq email }) {
                 it[UsersTable.token] = token
             }
 
@@ -81,21 +81,21 @@ object UsersTable: Table("users") {
         return token
     }
 
-    fun resetAuthToken(email: String){
+    fun resetAuthToken(email: String) {
         transaction {
-            UsersTable.update({UsersTable.email eq email}) {
+            UsersTable.update({ UsersTable.email eq email }) {
                 it[token] = null
             }
         }
     }
 
-    fun checkAuth(token: String): Boolean{
+    fun checkAuth(token: String): Boolean {
         val hasAuth = transaction {
             val user = UsersTable.selectAll().where {
                 UsersTable.token eq token
             }.firstOrNull()
 
-            if(user == null){
+            if (user == null) {
                 return@transaction false
             }
 
@@ -103,5 +103,19 @@ object UsersTable: Table("users") {
         }
 
         return hasAuth
+    }
+
+    fun markAccountWithType(email: String, accountType: String, infoId: String){
+        transaction{
+            if(accountType == "coach"){
+                UsersTable.update({ UsersTable.email eq email }) {
+                    it[coachInfoId] = infoId
+                }
+            }else{
+                UsersTable.update({ UsersTable.email eq email }) {
+                    it[clientInfoId] = infoId
+                }
+            }
+        }
     }
 }
