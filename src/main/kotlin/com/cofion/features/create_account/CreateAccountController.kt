@@ -25,6 +25,7 @@ class CreateAccountController {
                     email = accountInfo.email,
                     password = accountInfo.password,
                     confirmed = false,
+                    accountType = accountInfo.accountType,
                 )
             )
 

@@ -13,7 +13,11 @@ fun Application.authRouting() {
         post("/login") {
             val payload = call.receive<AuthPayload>()
 
-            val authStatus = authController.authUser(email = payload.email, password = payload.password)
+            val authStatus = authController.authUser(
+                email = payload.email,
+                password = payload.password,
+                accountType = payload.accountType
+            )
 
             call.respond(
                 AuthResponse(

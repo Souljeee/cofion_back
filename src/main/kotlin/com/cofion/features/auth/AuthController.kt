@@ -3,13 +3,13 @@ package com.cofion.features.auth
 import com.cofion.common.database.tables.UsersTable
 
 class AuthController {
-    fun authUser(email: String, password: String): AuthDTO {
+    fun authUser(email: String, password: String, accountType: String): AuthDTO {
         val user = UsersTable.getUserWithEmail(email = email) ?: return AuthDTO(
             authStatus = AuthStatus.NONEXISTENT_USER,
             token = null
         )
 
-        if(!user.confirmed){
+        if(!user.confirmed || user.accountType != accountType){
             return AuthDTO(
                 authStatus = AuthStatus.NONEXISTENT_USER,
                 token = null

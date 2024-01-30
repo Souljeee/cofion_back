@@ -38,6 +38,7 @@ object UsersTable : Table("users") {
                 email = user[UsersTable.email],
                 password = user[password],
                 confirmed = user[confirmed],
+                accountType = if(user[coachInfoId] != null) "coach" else "client",
             )
         }
 

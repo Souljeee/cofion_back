@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class AuthPayload(
     val email: String,
     val password: String,
+    val accountType: String,
 )
 
 @Serializable
