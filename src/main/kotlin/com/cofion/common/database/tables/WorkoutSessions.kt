@@ -9,5 +9,5 @@ object WorkoutSessions: Table("workout_sessions") {
     val orderNumber = integer("order_number")
     val workoutPlanId = integer("workout_plan_id").references(WorkoutPlans.id)
 
-    override val primaryKey = PrimaryKey(ExcercisesDetails.id)
+    override val primaryKey = PrimaryKey(id)
 }
