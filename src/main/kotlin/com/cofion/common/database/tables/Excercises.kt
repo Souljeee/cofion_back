@@ -1,7 +1,9 @@
 package com.cofion.common.database.tables
 
-import com.cofion.common.database.tables.UsersTable.references
+import com.cofion.features.excercises.dtos.ExcerciseDto
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 
 object Excercises : Table("excercises") {
     val id = integer("id").autoIncrement()
@@ -14,4 +16,29 @@ object Excercises : Table("excercises") {
     val difficulty = varchar("difficulty", 50).nullable()
 
     override val primaryKey = PrimaryKey(id)
+
+    fun getAllExercises() : List<ExcerciseDto>{
+        val exercisesList: MutableList<ExcerciseDto> = mutableListOf()
+
+        val exercises = transaction {
+            Excercises.selectAll().forEach {
+                exercisesList.add(
+                    ExcerciseDto(
+                        id = it[Excercises.id],
+                        name = it[Excercises.name],
+                        type = it[Excercises.type],
+                        description = it[Excercises.description],
+                        imageUrl = it[Excercises.imageUrl],
+                        videoUrl = it[Excercises.videoUrl],
+                        authorId = it[Excercises.authorId],
+                        difficulty = it[Excercises.difficulty],
+                    )
+                )
+            }
+
+            return@transaction exercisesList
+        }
+
+        return exercises
+    }
 }
