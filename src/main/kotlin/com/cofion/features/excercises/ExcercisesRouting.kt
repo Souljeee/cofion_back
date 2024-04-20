@@ -12,6 +12,8 @@ fun Application.exercisesRouting() {
             val exercises = exerciseController.getAllExercises()
 
             val exerciseResponses = exercises.map {
+                val muscleGroups = exerciseController.getMuscleGroupsByExerciseId(exerciseId = it.id)
+
                 ExerciseReponse(
                     id = it.id,
                     name = it.name,
@@ -21,6 +23,7 @@ fun Application.exercisesRouting() {
                     videoUrl = it.videoUrl,
                     authorId = it.authorId,
                     difficulty = it.difficulty,
+                    muscleGroups = muscleGroups,
                 )
             }
 
@@ -29,18 +32,21 @@ fun Application.exercisesRouting() {
         get("/exercise_details/{exerciseId}") {
             val exerciseId = call.parameters["exerciseId"]?.toInt()
 
-            val exercises = exerciseController.getExerciseDetails(exerciseId = exerciseId!!)
+            val exercise = exerciseController.getExerciseDetails(exerciseId = exerciseId!!)
+
+            val muscleGroups = exerciseController.getMuscleGroupsByExerciseId(exerciseId = exercise.id)
 
             call.respond(
                 ExerciseReponse(
-                    id = exercises.id,
-                    name = exercises.name,
-                    type = exercises.type,
-                    description = exercises.description,
-                    imageUrl = exercises.imageUrl,
-                    videoUrl = exercises.videoUrl,
-                    authorId = exercises.authorId,
-                    difficulty = exercises.difficulty,
+                    id = exercise.id,
+                    name = exercise.name,
+                    type = exercise.type,
+                    description = exercise.description,
+                    imageUrl = exercise.imageUrl,
+                    videoUrl = exercise.videoUrl,
+                    authorId = exercise.authorId,
+                    difficulty = exercise.difficulty,
+                    muscleGroups = muscleGroups,
                 )
             )
         }

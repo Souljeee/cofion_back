@@ -11,5 +11,6 @@ data class ExerciseReponse(
     val imageUrl: String?,
     val videoUrl: String?,
     val authorId: String?,
-    val difficulty: String?
+    val difficulty: String?,
+    val muscleGroups: List<String>,
 )
