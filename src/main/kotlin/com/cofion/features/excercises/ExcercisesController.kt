@@ -9,4 +9,10 @@ class ExcercisesController{
 
         return exercises
     }
+
+    fun getExerciseDetails(exerciseId: Int): ExcerciseDto{
+        val exerciseDetails = Excercises.getExerciseById(exerciseId = exerciseId)
+
+        return exerciseDetails
+    }
 }

@@ -8,7 +8,7 @@ fun Application.exercisesRouting() {
     val exerciseController = ExcercisesController()
 
     routing {
-        get("exercises_list") {
+        get("/exercises_list") {
             val exercises = exerciseController.getAllExercises()
 
             val exerciseResponses = exercises.map {
@@ -25,6 +25,24 @@ fun Application.exercisesRouting() {
             }
 
             call.respond(exerciseResponses)
+        }
+        get("/exercise_details/{exerciseId}") {
+            val exerciseId = call.parameters["exerciseId"]?.toInt()
+
+            val exercises = exerciseController.getExerciseDetails(exerciseId = exerciseId!!)
+
+            call.respond(
+                ExerciseReponse(
+                    id = exercises.id,
+                    name = exercises.name,
+                    type = exercises.type,
+                    description = exercises.description,
+                    imageUrl = exercises.imageUrl,
+                    videoUrl = exercises.videoUrl,
+                    authorId = exercises.authorId,
+                    difficulty = exercises.difficulty,
+                )
+            )
         }
     }
 }

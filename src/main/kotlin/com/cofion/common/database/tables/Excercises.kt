@@ -1,7 +1,9 @@
 package com.cofion.common.database.tables
 
 import com.cofion.features.excercises.dtos.ExcerciseDto
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 
@@ -40,5 +42,28 @@ object Excercises : Table("excercises") {
         }
 
         return exercises
+    }
+
+    fun getExerciseById(exerciseId: Int) : ExcerciseDto{
+        val exerciseList: MutableList<ExcerciseDto> = mutableListOf()
+
+        transaction{
+            Excercises.select{Excercises.id eq exerciseId}.forEach {
+                exerciseList.add(
+                    ExcerciseDto(
+                        id = it[Excercises.id],
+                        name = it[Excercises.name],
+                        type = it[Excercises.type],
+                        description = it[Excercises.description],
+                        imageUrl = it[Excercises.imageUrl],
+                        videoUrl = it[Excercises.videoUrl],
+                        authorId = it[Excercises.authorId],
+                        difficulty = it[Excercises.difficulty],
+                    )
+                )
+            }
+        }
+
+        return exerciseList.first()
     }
 }
