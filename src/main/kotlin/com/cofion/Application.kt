@@ -3,6 +3,7 @@ package com.cofion
 import com.cofion.features.auth.authRouting
 import com.cofion.features.create_account.createAccountRouting
 import com.cofion.features.excercises.exercisesRouting
+import com.cofion.features.user.userRouting
 import com.cofion.features.workout_plans.workoutPlansRouting
 import com.cofion.plugins.*
 import io.ktor.server.application.*
@@ -31,4 +32,5 @@ fun Application.module() {
     configureRouting()
     exercisesRouting()
     workoutPlansRouting()
+    userRouting()
 }

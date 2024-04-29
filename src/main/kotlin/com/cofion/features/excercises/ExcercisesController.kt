@@ -31,4 +31,10 @@ class ExcercisesController{
 
         return muscleGroupsKeys
     }
+
+    fun getAllMuscleGroups(): List<String>{
+        val muscleGroups = MuscleGroups.getAllMuscleGroups()
+
+        return muscleGroups
+    }
 }

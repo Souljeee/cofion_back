@@ -46,6 +46,8 @@ dependencies {
     // Email Sending
     implementation("org.apache.commons:commons-email:1.5")
 
+    implementation ("org.jetbrains.kotlinx:kotlinx-datetime:0.3.2")
+
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("io.ktor:ktor-server-cors-jvm")

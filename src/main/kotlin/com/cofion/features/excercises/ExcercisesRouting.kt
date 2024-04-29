@@ -14,7 +14,7 @@ fun Application.exercisesRouting() {
             val exerciseResponses = exercises.map {
                 val muscleGroups = exerciseController.getMuscleGroupsByExerciseId(exerciseId = it.id)
 
-                ExerciseReponse(
+                ExerciseResponse(
                     id = it.id,
                     name = it.name,
                     type = it.type,
@@ -37,7 +37,7 @@ fun Application.exercisesRouting() {
             val muscleGroups = exerciseController.getMuscleGroupsByExerciseId(exerciseId = exercise.id)
 
             call.respond(
-                ExerciseReponse(
+                ExerciseResponse(
                     id = exercise.id,
                     name = exercise.name,
                     type = exercise.type,
@@ -49,6 +49,11 @@ fun Application.exercisesRouting() {
                     muscleGroups = muscleGroups,
                 )
             )
+        }
+        get("/all_muscle_groups"){
+            val muscleGroups = exerciseController.getAllMuscleGroups()
+
+            call.respond(MuscleGroupsResponse(muscleGroups = muscleGroups))
         }
     }
 }

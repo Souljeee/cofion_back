@@ -15,7 +15,7 @@ data class ExercisePayload(
     val exerciseId: Int,
     val comment: String?,
     val orderNumber: Int,
-    val approach: List<ApproachPayload>,
+    val approaches: List<ApproachPayload>,
 )
 
 @Serializable
@@ -29,7 +29,7 @@ data class SessionPayload(
 @Serializable
 data class WorkoutPlanPayload(
     val title: String,
-    val description: String,
+    val description: String?,
     val difficulty: String,
     val authorId: String,
     val type: String,

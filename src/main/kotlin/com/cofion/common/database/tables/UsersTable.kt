@@ -119,4 +119,29 @@ object UsersTable : Table("users") {
             }
         }
     }
+
+    fun getUserByAuthToken(authToken: String): UserDTO?{
+        val user = transaction {
+            val user = UsersTable.selectAll().where {
+                UsersTable.token eq authToken
+            }.firstOrNull()
+
+            if (user == null) {
+                return@transaction null
+            }
+
+            return@transaction UserDTO(
+                id = user[UsersTable.id],
+                firstName = user[firstName],
+                lastName = user[lastName],
+                createAccountDate = user[createAccountDate],
+                email = user[UsersTable.email],
+                password = user[password],
+                confirmed = user[confirmed],
+                accountType = if(user[coachInfoId] != null) "coach" else "client",
+            )
+        }
+
+        return user
+    }
 }

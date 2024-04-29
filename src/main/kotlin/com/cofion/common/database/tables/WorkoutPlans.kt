@@ -1,22 +1,19 @@
 package com.cofion.common.database.tables
 
-import org.jetbrains.exposed.sql.Table
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.insert
 
-object WorkoutPlans : Table("workout_plans") {
-    val id = integer("id").autoIncrement()
+object WorkoutPlans : IntIdTable("workout_plans") {
     val title = varchar("title", 200)
     val description = text("description").nullable()
-    val sessionsPerWeek = integer("sessions_per_week")
+    val sessionsPerWeek = integer("sessions_per_week_count")
     val generalDuration = integer("general_duration")
     val authorId = varchar("author_id", 100).references(UsersTable.id)
     val difficulty = varchar("difficulty", 50)
 
-    override val primaryKey = PrimaryKey(ExcercisesDetails.id)
-
     fun insertWorkoutPlan(
         title: String,
-        description: String,
+        description: String?,
         sessionsPerWeek: Int,
         generalDuration: Int,
         authorId: String,
@@ -31,6 +28,6 @@ object WorkoutPlans : Table("workout_plans") {
             it[WorkoutPlans.difficulty] = difficulty
         } get WorkoutPlans.id
 
-        return id
+        return id.value
     }
 }

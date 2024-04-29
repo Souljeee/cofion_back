@@ -16,7 +16,7 @@ object MuscleGroupsExcercises : Table("muscle_groups_excercises") {
         val muscleGroupsIds: MutableList<Int> = mutableListOf()
 
         transaction {
-            MuscleGroupsExcercises.select { MuscleGroupsExcercises.muscleGroupId eq exerciseId }
+            MuscleGroupsExcercises.select { MuscleGroupsExcercises.excerciseId eq exerciseId }
                 .forEach { muscleGroupsIds.add(it[MuscleGroupsExcercises.muscleGroupId]) }
         }
 

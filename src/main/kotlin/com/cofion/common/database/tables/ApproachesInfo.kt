@@ -1,17 +1,14 @@
 package com.cofion.common.database.tables
 
+import org.jetbrains.exposed.dao.id.IntIdTable
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.insert
 
-object ApproachesInfo: Table("approaches_info") {
-    val id = integer("id").autoIncrement()
+object ApproachesInfo: IntIdTable("approaches_info") {
     val orderNumber = integer("order_number")
     val repsCount = integer("reps_count")
     val weight = double("weight")
     val rest = integer("rest")
-
-
-    override val primaryKey = PrimaryKey(id)
 
     fun insertApproaches(orderNumber: Int, repsCount: Int, weight: Double, rest: Int) : Int{
         val id = ApproachesInfo.insert {
@@ -21,6 +18,6 @@ object ApproachesInfo: Table("approaches_info") {
             it[ApproachesInfo.rest] = rest
         } get ApproachesInfo.id
 
-        return id
+        return id.value
     }
 }

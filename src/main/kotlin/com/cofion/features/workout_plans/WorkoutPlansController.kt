@@ -35,7 +35,7 @@ class WorkoutPlansController {
                         orderNumber = exercisePayload.orderNumber
                     )
 
-                    exercisePayload.approach.forEach {
+                    exercisePayload.approaches.forEach {
                         val approachId = ApproachesInfo.insertApproaches(
                             orderNumber = it.orderNumber,
                             repsCount = it.repsCount,
