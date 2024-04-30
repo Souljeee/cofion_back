@@ -32,5 +32,28 @@ fun Application.coachRouting(){
                 )
             )
         }
+        get("/coach_rates/{coachId}"){
+            call.checkAuth()
+
+            val coachId = call.parameters["coachId"]
+
+            if(coachId == null){
+                call.respond(status = HttpStatusCode.BadRequest, message = "coachId is required")
+
+                return@get
+            }
+
+            val coachRateDtos = coachController.getCoachRates(coachId = coachId)
+
+            call.respond(
+                coachRateDtos.map {
+                    return@map CoachRateResponse(
+                        rate = it.rate,
+                        positiveComment = it.positiveComment,
+                        negativeComment = it.negativeComment,
+                    )
+                }
+            )
+        }
     }
 }
