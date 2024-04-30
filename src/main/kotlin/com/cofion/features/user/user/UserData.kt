@@ -1,4 +1,4 @@
-package com.cofion.features.user
+package com.cofion.features.user.user
 
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package com.cofion.features.user
+package com.cofion.features.user.user
 
 import io.ktor.http.*
 import io.ktor.server.application.*

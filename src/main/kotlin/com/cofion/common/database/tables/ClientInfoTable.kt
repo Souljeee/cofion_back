@@ -7,6 +7,10 @@ import java.util.*
 
 object ClientInfoTable: Table("client_info") {
     val id = varchar("id", 100)
+    val experience = integer("experience").nullable()
+    val description = text("description").nullable()
+    val rating = double("rating").default(0.0)
+
 
     override val primaryKey = PrimaryKey(id)
 

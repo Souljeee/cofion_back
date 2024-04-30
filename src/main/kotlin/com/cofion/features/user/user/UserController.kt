@@ -1,4 +1,4 @@
-package com.cofion.features.user
+package com.cofion.features.user.user
 
 import com.cofion.common.data.dtos.UserDTO
 import com.cofion.common.database.tables.UsersTable
