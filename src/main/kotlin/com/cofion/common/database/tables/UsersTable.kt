@@ -144,4 +144,16 @@ object UsersTable : Table("users") {
 
         return user
     }
+
+    fun getCoachId(userId: String): String {
+        val coachId = transaction {
+            val user = UsersTable.selectAll().where {
+                UsersTable.id eq userId
+            }.single()
+
+            return@transaction user[UsersTable.coachInfoId]
+        }
+
+        return coachId!!
+    }
 }
