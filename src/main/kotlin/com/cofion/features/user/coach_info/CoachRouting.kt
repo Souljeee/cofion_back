@@ -55,5 +55,20 @@ fun Application.coachRouting(){
                 }
             )
         }
+        get("/coach_achievements/{coachId}"){
+            call.checkAuth()
+
+            val coachId = call.parameters["coachId"]
+
+            if(coachId == null){
+                call.respond(status = HttpStatusCode.BadRequest, message = "coachId is required")
+
+                return@get
+            }
+
+            val coachAchievements = coachController.getCoachAchievements(coachId = coachId)
+
+            call.respond(coachAchievements)
+        }
     }
 }

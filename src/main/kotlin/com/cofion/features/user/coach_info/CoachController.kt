@@ -1,5 +1,6 @@
 package com.cofion.features.user.coach_info
 
+import com.cofion.common.database.tables.CoachAchievements
 import com.cofion.common.database.tables.CoachInfoTable
 import com.cofion.common.database.tables.CoachRates
 import com.cofion.common.database.tables.UsersTable
@@ -15,5 +16,9 @@ class CoachController {
 
     fun getCoachRates(coachId: String): List<CoachRateDto>{
         return CoachRates.getCoachRates(coachId = coachId)
+    }
+
+    fun getCoachAchievements(coachId: String): List<String>{
+        return CoachAchievements.getCoachAchievements(coachId = coachId)
     }
 }
